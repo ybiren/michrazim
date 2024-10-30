@@ -3,7 +3,7 @@ on:
     - cron: '*/5 * * * *'
 jobs:
   say-hello:
-    runs-on: windows
+    runs-on: windows-latest
     steps:
       - name: Echo Hello World
         run: echo "hello world"
