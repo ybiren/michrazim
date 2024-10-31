@@ -1,0 +1,9 @@
+on:
+  schedule:
+    - cron: '0 10 * * *'
+jobs:
+  auctions:
+     runs-on: windows-latest
+     steps:
+      - name: Echo Hello World
+        run: echo "hello world"
