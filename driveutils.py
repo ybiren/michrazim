@@ -67,7 +67,7 @@ class DriveUtils:
     listedFolderNames = [item['name'].strip() for item in listedFolders]
     if not dirName in listedFolderNames: 
       file_metadata = {
-        'name': dirName,
+        'name': dirName.encode('utf-8').decode('utf-8')
         "parents": [DriveUtils.auctions_folder_id],
         'mimeType': 'application/vnd.google-apps.folder'
       }
