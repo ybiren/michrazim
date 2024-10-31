@@ -1,14 +1,10 @@
 on:
   schedule:
     #- cron: '*/30 * * * *'
-    - cron: '0 5 * * *'
+    - cron: '30 9 * * *'
 jobs:
   test_schedule:
-    
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    
+        
     runs-on: windows-latest
     steps:
      - name: Check out
@@ -23,13 +19,6 @@ jobs:
        run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-     - name: Authenticate to Google Cloud
-       uses: google-github-actions/auth@v2
-       with:
-         project_id: 'auctions-422114'
-         workload_identity_provider: 'projects/auctions-422114/locations/global/workloadIdentityPools/auctions_github_pool/providers/provd'
-
           
      - name: Run script
        run: python 1_console.py
