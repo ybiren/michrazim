@@ -1,6 +1,7 @@
 logs/
 __pycache__/
 build/
+.github/
 dist/
 file.pdf
 1.spec
