@@ -1,0 +1,7 @@
+logs/
+__pycache__/
+build/
+dist/
+.github/
+file.pdf
+1.spec
