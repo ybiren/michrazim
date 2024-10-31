@@ -1,7 +1,7 @@
 on:
   schedule:
     #- cron: '*/30 * * * *'
-    - cron: '30 12 * * *'
+    - cron: '0 14 * * *'
 jobs:
   test_schedule:
         
