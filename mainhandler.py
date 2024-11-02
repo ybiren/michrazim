@@ -53,7 +53,7 @@ class MainHandler:
       self.__navigateToHomePage(self.driver,checkboxes)
       self.log("__get_all_auctions")
       self.auctionObjs = self.__get_all_auctions(self.driver)
-    
+          
       #auctionObjs = auctionObjs[:200].copy()
       self.log("init gsUtils")
       gsUtils = GsUtils()
@@ -91,6 +91,10 @@ class MainHandler:
           auctionData = self.auctionDataArr[self.curr_auction_idx]
           self.log(str(self.curr_auction_idx) + "-----------------------------------" + str(len(self.auctionDataArr)))
           auctionNumber = auctionData['misMichraz'].strip()
+          if checkboxes == None:
+            auctionNumber = "468/2022"
+          self.log("AAAA " + auctionNumber)
+
           if not auctionData['numUnits'].isnumeric() and auctionNumber in gsUtils.auctions_dict(): 
             auctionData['numUnits'] = gsUtils.auctions_dict()[auctionNumber]["row"][GsUtils.UNITS_COL -1]
             self.log("numUnits is not numeric" + str(auctionData['numUnits']));
