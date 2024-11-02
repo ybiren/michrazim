@@ -13,9 +13,12 @@ from mainhandler import MainHandler
 ##logging.basicConfig(format='%(asctime)s %(levelname)s %(module)s %(funcName)s %(message)s',
 ##                    handlers=[logging.FileHandler("my_log.log", mode='a'),
 ##                              stream_handler])
-action_types_options_txt = ['מכרז פומבי רגיל', 'מחיר מטרה', 'דיור במחיר מופחת', 'מכרז ייזום', 'מכרז למגרש בלתי מסוים', 'הרשמה והגרלה', 'דיור להשכרה', 'מכרזי עמידר', 'מכרזי החברה לפיתוח עכו']
+auction_types_options_txt = ['מכרז פומבי רגיל', 'מחיר מטרה', 'דיור במחיר מופחת', 'מכרז ייזום', 'מכרז למגרש בלתי מסוים', 'הרשמה והגרלה', 'דיור להשכרה', 'מכרזי עמידר', 'מכרזי החברה לפיתוח עכו']
+vocation_options_text = ['בניה נמוכה/צמודת קרקע', 'בנייה רוויה']
+
 checkboxes = []
 checkbuttons = []
+vocation_checkboxes = []
 
 # Create the main window
 root = tk.Tk()
@@ -69,8 +72,8 @@ def on_closing():
   main_handler.quitSeleniumDriver()
   psutil.Process(os.getpid()).terminate()
 
-
-for ind,option in enumerate(action_types_options_txt):
+#סוגי מכרזים
+for ind,option in enumerate(auction_types_options_txt):
   var = tk.IntVar()
   checkbox = tk.Checkbutton(root, text="", variable=var, bg='lightblue')
   label = tk.Label(root, text=option, bg='lightblue')
@@ -83,6 +86,18 @@ for ind,option in enumerate(action_types_options_txt):
   
   checkboxes.append(var)
   checkbuttons.append(checkbox)
+
+#ייעוד
+for ind,option in enumerate(vocation_options_text):
+  var = tk.IntVar()
+  vocation_checkbox = tk.Checkbutton(root, text="", variable=var, bg='lightblue')
+  label = tk.Label(root, text=option, bg='lightblue')
+  label.grid(row=ind+10, column=2, sticky='e')
+  vocation_checkbox.grid(row=ind+10, column=3, sticky='w')
+  vocation_checkboxes.append(var)
+  checkbuttons.append(vocation_checkbox)
+  
+  
 
 thread = threading.Thread(target=main_handler.main, args=(checkboxes,))
 start_button = tk.Button(root, text="הפעלה", font=font.Font(size=22), bg='lightgray', command=thread.start)
