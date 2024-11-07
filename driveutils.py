@@ -8,6 +8,9 @@ from googleapiclient.errors import HttpError
 from google.auth.exceptions import RefreshError
 from googleapiclient.http import MediaFileUpload, MediaIoBaseUpload
 from datetime import datetime
+import json
+from google.oauth2 import service_account
+
 
 SCOPES = ['https://www.googleapis.com/auth/drive']
 CREDENTIALS = 'client_secret.json'
@@ -26,29 +29,16 @@ class DriveUtils:
     
   ##################################################################################################
   def __getCreds(self):
-    
-    creds = None
-    
-    # The file token.json stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    if os.path.exists(TOKENJSON):
-        creds = Credentials.from_authorized_user_file(TOKENJSON, SCOPES)
-        try:
-            creds.refresh(Request())
-        except RefreshError as error:
-            # If the refresh token has expired then we request authorization again.
-            os.remove(TOKENJSON)
-            creds = None
-        # If there are no (valid) credentials available, let the user log in.
-        if not creds or not creds.valid:
-          if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-          else:
-            creds = self.__create_token_json_from_client_secrets_file()
-    else: 
-      creds = self.__create_token_json_from_client_secrets_file()
-    return creds
+
+    with open("googlesheetcreds.json", "r") as file:
+      service_account_info = json.load(file)
+
+    credentials = service_account.Credentials.from_service_account_info(
+      service_account_info,
+      scopes=["https://www.googleapis.com/auth/drive"]
+    )
+
+    return credentials
 
   ###########################################################################################################################  
   def __create_token_json_from_client_secrets_file(self):

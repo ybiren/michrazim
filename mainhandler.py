@@ -37,6 +37,10 @@ class MainHandler:
     self.driver = webdriver.Chrome()
 
 #################################################################################
+  def __is_github_actions(self):
+    return os.getenv('GITHUB_ACTIONS') == 'true'
+
+#################################################################################
   def main(self, checkboxes):
     try:
       if not os.path.exists("logs"):
@@ -132,7 +136,9 @@ class MainHandler:
 
 #################################################################################
   def log(self,msg):
-    #print(msg.encode('utf-8').decode('utf-8'))
+    if not self.__is_github_actions():
+      print(msg)
+    
     filename = f"logs/log_{self.exceution_time}.txt"
     with open(filename,'a',encoding='utf-8') as file:
       file.write(datetime.datetime.now().strftime('%H:%M') + "    " + str(msg) + "\n")  
