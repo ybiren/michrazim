@@ -227,7 +227,7 @@ class MainHandler:
         if checkbox.get() == 1:
           p_multiselectitems[i].find_element(By.CLASS_NAME, "p-checkbox").click()
     else:
-      p_multiselectitems[4].find_element(By.CLASS_NAME, "p-checkbox").click()   #  מכרז למגרש בלתי מסוים
+      p_multiselectitems[3].find_element(By.CLASS_NAME, "p-checkbox").click()   #  מכרז למגרש בלתי מסוים
 
 
     srchBtn = WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.CLASS_NAME, "icon-search")))
