@@ -14,11 +14,10 @@ from mainhandler import MainHandler
 ##                    handlers=[logging.FileHandler("my_log.log", mode='a'),
 ##                              stream_handler])
 auction_types_options_txt = ['מכרז פומבי רגיל', 'מחיר מטרה', 'דיור במחיר מופחת', 'מכרז ייזום', 'מכרז למגרש בלתי מסוים', 'הרשמה והגרלה', 'דיור להשכרה', 'מכרזי עמידר', 'מכרזי החברה לפיתוח עכו']
-vocation_options_text = ['בניה נמוכה/צמודת קרקע', 'בנייה רוויה']
+vocation_options_text = ['בנייה רוויה' , 'בניה נמוכה/צמודת קרקע']
 
 checkboxes = []
 checkbuttons = []
-vocation_checkboxes = []
 
 # Create the main window
 root = tk.Tk()
@@ -94,7 +93,7 @@ for ind,option in enumerate(vocation_options_text):
   label = tk.Label(root, text=option, bg='lightblue')
   label.grid(row=ind+10, column=2, sticky='e')
   vocation_checkbox.grid(row=ind+10, column=3, sticky='w')
-  vocation_checkboxes.append(var)
+  checkboxes.append(var)
   checkbuttons.append(vocation_checkbox)
   
   

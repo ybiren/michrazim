@@ -36,6 +36,7 @@ class MainHandler:
     self.auctionDataArr = []
     self.driver = webdriver.Chrome()
 
+
 #################################################################################
   def __is_github_actions(self):
     return os.getenv('GITHUB_ACTIONS') == 'true'
@@ -51,6 +52,8 @@ class MainHandler:
       self.__killProcesses()
       self.log("initSeleniumDriver")
       self.driver = self.__initSeleniumDriver()
+      self.driver.set_window_size(1024, 1000)
+    
       self.log("del_old_log_files")
       self.__del_old_log_files()
       self.log("navigateToHomePage")
@@ -173,7 +176,7 @@ class MainHandler:
     #options.add_argument("--headless")
     options.add_argument("--headless=new")
     #options.add_argument("--disable-gpu")
-    options.add_argument("--window-position=-2400,-2400")
+    ####options.add_argument("--window-position=-2400,-2400")
   
     #driver_path = r'C:\Users\yossi\.wdm\drivers\chromedriver\win64\127.0.6533.72\chromedriver-win32\chromedriver.exe'
     # Setup WebDriver
@@ -215,22 +218,35 @@ class MainHandler:
     self.log("after enter")
     enterBtn.click()
     
-    p_multiselect_label = WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.CLASS_NAME, "p-multiselect-label")))
-    p_multiselect_label.click()
-  
-    # Wait until at least one element is clickable
-    WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.TAG_NAME, "p-multiselectitem")))
-    p_multiselectitems = driver.find_elements(By.TAG_NAME, "p-multiselectitem")
-    
-    #bbbb
     if checkboxes != None:
+      label_auction_type = 0
+      label_auction_vocation = 1
+      num_options_for_auction_type = 9
+
+      advanced_search_btn = WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.CLASS_NAME, "advanced-search")))
+      advanced_search_btn.click()
+      
+      WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.CLASS_NAME, "p-multiselect-label")))
+      p_multiselect_labels = driver.find_elements(By.CLASS_NAME, "p-multiselect-label")
+    
+      #for multiselect_label in p_multiselect_labels:
+        #multiselect_label.click() #open
+      p_multiselect_labels[label_auction_type].click()
+
+      # Wait until at least one element is clickable
+      WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.TAG_NAME, "p-multiselectitem")))
+      p_multiselectitems = driver.find_elements(By.TAG_NAME, "p-multiselectitem")
       for i, checkbox in enumerate(checkboxes):
-        if checkbox.get() == 1:
-          p_multiselectitems[i].find_element(By.CLASS_NAME, "p-checkbox").click()
-    #else:
-      #p_multiselectitems[1].find_element(By.CLASS_NAME, "p-checkbox").click()   #  מכרז למגרש בלתי מסוים
-
-
+        if i < num_options_for_auction_type and checkbox.get() == 1:
+          p_multiselectitems[i].click()
+        
+      p_multiselect_labels[label_auction_vocation].click()
+      WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.TAG_NAME, "p-multiselectitem")))
+      p_multiselectitems = driver.find_elements(By.TAG_NAME, "p-multiselectitem")
+      for i, checkbox in enumerate(checkboxes):
+        if i >= num_options_for_auction_type and checkbox.get() == 1:
+          p_multiselectitems[i].click()
+      
     srchBtn = WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.CLASS_NAME, "icon-search")))
     self.log("after search")
     srchBtn.click()
