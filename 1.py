@@ -21,7 +21,7 @@ checkbuttons = []
 
 # Create the main window
 root = tk.Tk()
-root.title("מכרזים 1.1")
+root.title("מכרזים 1.2")
 root.geometry("800x600")
 root.configure(bg='lightblue')
 seconds_from_start = 0
