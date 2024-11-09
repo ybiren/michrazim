@@ -222,13 +222,13 @@ class MainHandler:
     WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.TAG_NAME, "p-multiselectitem")))
     p_multiselectitems = driver.find_elements(By.TAG_NAME, "p-multiselectitem")
     
-    #aa
+    #bbbb
     if checkboxes != None:
       for i, checkbox in enumerate(checkboxes):
         if checkbox.get() == 1:
           p_multiselectitems[i].find_element(By.CLASS_NAME, "p-checkbox").click()
-    else:
-      p_multiselectitems[1].find_element(By.CLASS_NAME, "p-checkbox").click()   #  מכרז למגרש בלתי מסוים
+    #else:
+      #p_multiselectitems[1].find_element(By.CLASS_NAME, "p-checkbox").click()   #  מכרז למגרש בלתי מסוים
 
 
     srchBtn = WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.CLASS_NAME, "icon-search")))
