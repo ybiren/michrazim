@@ -1,4 +1,4 @@
 from mainhandler import MainHandler
 
 main_handler = MainHandler()
-main_handler.main(None)
+main_handler.main(None, [0])

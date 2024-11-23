@@ -42,7 +42,7 @@ class MainHandler:
     return os.getenv('GITHUB_ACTIONS') == 'true'
 
 #################################################################################
-  def main(self, checkboxes):
+  def main(self, checkboxes, checkboxes_for_cloud_run = None):
     try:
       if not os.path.exists("logs"):
         os.makedirs("logs") 
@@ -57,7 +57,7 @@ class MainHandler:
       self.log("del_old_log_files")
       self.__del_old_log_files()
       self.log("navigateToHomePage")
-      self.__navigateToHomePage(self.driver,checkboxes)
+      self.__navigateToHomePage(self.driver,checkboxes, checkboxes_for_cloud_run)
       self.log("__get_all_auctions")
       self.auctionObjs = self.__get_all_auctions(self.driver)
           
@@ -209,7 +209,7 @@ class MainHandler:
     df.to_excel(excel_file, index=False)
   
 #################################################################################
-  def __navigateToHomePage(self, driver, checkboxes):
+  def __navigateToHomePage(self, driver, checkboxes,checkboxes_for_cloud_run):
     #url = "https://apps.land.gov.il/MichrazimSite/#/homePage"
     self.log("before navigating to url")
     driver.get(f"{self.michrazim_url}/homePage")
@@ -218,7 +218,7 @@ class MainHandler:
     self.log("after enter")
     enterBtn.click()
     
-    if checkboxes != None:
+    if checkboxes != None or checkboxes_for_cloud_run != None:
       label_auction_type = 0
       label_auction_vocation = 1
       num_options_for_auction_type = 9
@@ -232,21 +232,28 @@ class MainHandler:
       #for multiselect_label in p_multiselect_labels:
         #multiselect_label.click() #open
       p_multiselect_labels[label_auction_type].click()
-
       # Wait until at least one element is clickable
       WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.TAG_NAME, "p-multiselectitem")))
       p_multiselectitems = driver.find_elements(By.TAG_NAME, "p-multiselectitem")
-      for i, checkbox in enumerate(checkboxes):
-        if i < num_options_for_auction_type and checkbox.get() == 1:
-          p_multiselectitems[i].click()
-        
-      p_multiselect_labels[label_auction_vocation].click()
-      WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.TAG_NAME, "p-multiselectitem")))
-      p_multiselectitems = driver.find_elements(By.TAG_NAME, "p-multiselectitem")
-      for i, checkbox in enumerate(checkboxes):
-        if i >= num_options_for_auction_type and checkbox.get() == 1:
-          p_multiselectitems[i].click()
       
+      if checkboxes != None:
+        for i, checkbox in enumerate(checkboxes):
+          if i < num_options_for_auction_type and checkbox.get() == 1:
+            p_multiselectitems[i].click()
+      if checkboxes_for_cloud_run != None:
+        for i,val in enumerate(checkboxes_for_cloud_run):
+          p_multiselectitems[val].click()  
+
+
+      if checkboxes != None:  #ייעוד
+        p_multiselect_labels[label_auction_vocation].click()
+        WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.TAG_NAME, "p-multiselectitem")))
+        p_multiselectitems = driver.find_elements(By.TAG_NAME, "p-multiselectitem")
+        for i, checkbox in enumerate(checkboxes):
+          if i >= num_options_for_auction_type and checkbox.get() == 1:
+            p_multiselectitems[i].click()
+
+
     srchBtn = WebDriverWait(driver, 60).until(EC.element_to_be_clickable((By.CLASS_NAME, "icon-search")))
     self.log("after search")
     srchBtn.click()
