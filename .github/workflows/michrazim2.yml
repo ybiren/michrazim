@@ -1,7 +1,7 @@
 
 on:
   schedule:
-    - cron: '00 11 * * 5'
+    - cron: '00 14 * * 5'
 jobs:
   test_schedule:
         
@@ -24,7 +24,7 @@ jobs:
        run: python 2_console.py
           
      - name: Upload text file as artifact
-       uses: actions/upload-artifact@v3
+       uses: actions/upload-artifact@v4
        with:
          name: logs-and-files
          path: |
