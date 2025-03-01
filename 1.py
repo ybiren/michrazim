@@ -6,6 +6,7 @@ from tkinter import messagebox
 import threading
 import psutil
 from mainhandler import MainHandler
+from keepalive import KeepAlive
 
 
 ##stream_handler = logging.StreamHandler()
@@ -117,6 +118,8 @@ root.protocol("WM_DELETE_WINDOW", on_closing)
 seconds_from_start = 0
 refresh_window(auction_ind_label, seconds_from_start_label, start_button, checkbuttons)
 
+keep_alive = KeepAlive()
+keep_alive.start()
 
 
 # Run the application

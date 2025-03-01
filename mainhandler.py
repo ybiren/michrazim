@@ -104,13 +104,20 @@ class MainHandler:
             self.log("numUnits is not numeric" + str(auctionData['numUnits']));
 
           #time.sleep(2)
-          self.driver.get(f"{self.michrazim_url}/search")
+          try:
+            self.driver.get(f"{self.michrazim_url}/search")
+          except Exception as e:
+            self.log("reinit selenium")
+            self.driver = self.__initSeleniumDriver()
+            self.driver.set_window_size(1024, 1000)
+            self.driver.get(f"{self.michrazim_url}/search")
+
           #time.sleep(2)
           numerator, denominator = map(str, auctionNumber.split('/'))
           auctionNumberFormatted = denominator.strip() + numerator.strip().zfill(4)
           folderName = f"{auctionNumberFormatted}-{auctionData['city']}-{auctionData['vocation']}-{auctionData['numUnits']}".replace("/","_")
           isAuctionExist = gsUtils.isAuctionExist(auctionNumber)
-          self.__keepAlive()   
+          #self.__keepAlive()   
           pdfData = auctionManager.dealWithPdfs(self.driver, auctionNumberFormatted, folderName, isAuctionExist, self.log)
           if pdfData!=None:
             auctionData["numDeadlinesPostponed"] = pdfData["numDeadlinesPostponed"] 

@@ -138,12 +138,16 @@ class AuctionManager:
       all_windows = driver.window_handles
 
       # Close all windows except the current one
-      for window in all_windows:
-        if window != current_window:
-          driver.switch_to.window(window)
-          driver.close()
-    
+      ####for window in all_windows:
+        ####if window != current_window:
+          ####driver.switch_to.window(window)
+          ####try:
+            ####driver.close()
+          ####except:
+            ####log("exception in close window")
+      
       driver.switch_to.window(current_window)
+      driver.close()
     except:
       log("exception from dealWithPdfs")  
       log(traceback.format_exc())
